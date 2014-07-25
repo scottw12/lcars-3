@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	    <title>Replicator Terminal</title>
+		<style>
+			body 
+			{
+		       color: white;
+               background-color: black;
+
+				margin: 0px;
+				padding: 0px;
+			}
+		</style>
+		<script>
+		
+		    
+	        var theme = { aW : 15 , bW : 150 , style : '#888'};
+		    function lcarsFrame( o , s , quad , context)
+		    {
+		        //var o = { x : 0 , y : 0 };
+		        //var s = { x : 1000 , y : 500 };
+		        var qy = 1;
+		        if(quad == 1 || quad == 2)
+		        {
+		            qy = -1;
+		        }
+		        var qx = 1;
+		        if(quad == 2 || quad == 3)
+		        {
+		            qx = -1;
+		        }
+		        
+		        var A = { x : o.x, y : o.y + (qy * s.y) };
+		        var B = { x : o.x + (qx * theme.bW) ,  y : A.y};
+		        var E = { y : o.y ,  x : o.x + (qx * s.x)};
+		        var D = { y : o.y + (qy * theme.aW) , x : E.x};
+		        var C = { x : B.x + (qx * 37.5) , y : D.y + (qy * 37.5) };
+		        var F = { x : o.x + (qx * 75), y: o.y+ (qy* 75)}; 
+
+		        context.beginPath();
+		        context.moveTo( A.x, A.y);
+		        context.lineTo( B.x, B.y);
+		        //context.lineTo( C.x, C.y);//arc
+		        context.arc(C.x, C.y, 37.5, Math.PI * ( 1/2 + (qx/2)), Math.PI * (1 + (qy/2)), quad%2);
+		        context.lineTo( D.x, D.y);
+		        context.lineTo( E.x, E.y);
+		        //context.lineTo( F.x, F.y);//arc
+		        context.arc(F.x, F.y, 75,  Math.PI * (1 + (qy/2)),Math.PI * ( 1/2 + (qx/2)), !(quad%2));
+                context.fillStyle = theme.style;
+                context.fill();
+                context.closePath();
+
+		    }
+           
+           
+            var buttons = [];
+            
+            
+            function AddButton(renderer, name, x,y, callback)
+			{
+    			renderer.beginPath();
+    			renderer.rect(x-5,y-5,160,70);
+    			renderer.fillStyle = '#000';
+    			renderer.fill();
+    			renderer.closePath();
+    
+    			renderer.beginPath();
+    			renderer.rect(x,y,150,60);
+    			renderer.fillStyle = '#59F';
+    			renderer.fill();
+    			renderer.closePath();
+    			
+    			renderer.font = '15pt Impact';
+    			renderer.textAlign = 'right';
+    			renderer.fillStyle = '#000';
+    			renderer.fillText(name, 145+x, y + 50);
+    			NextButton = y + 65;
+    			
+    			
+    			buttons[buttons.length] = { name : name,x : x ,y : y ,callback : callback };
+			};
+			
+			function fullScreen()
+			{
+                var canvas = document.getElementById("myCanvas");
+    		        if(canvas.requestFullScreen)
+                        canvas.requestFullScreen();
+                    else if(canvas.webkitRequestFullScreen)
+                        canvas.webkitRequestFullScreen();
+                    else if(canvas.mozRequestFullScreen)
+                        canvas.mozRequestFullScreen();
+			}
+
+		</script>
+	</head>
+	<body>
+	<!--video 
+	    id="stream"
+	    style="position: absolute;top: 200px;left: 200px;" 
+	    width="640" 
+	    height="480" 
+	    autoplay="" 
+	    src="http://hades.minetexas.com:9002" 
+	    type="video/webm" ></video-->
+    <canvas id="myCanvas" width='1920' height='1080' style="position: absolute;top:0px;left:0px;" ></canvas>
+		<script>;
+            var h = 1080
+			var canvas = document.getElementById('myCanvas');
+			var v = canvas.getContext('2d');
+
+			var stream = document.getElementById('stream');
+			
+			v.lineWidth = 0;
+			v.strokeStyle = '#000';
+			
+			v.beginPath();
+			v.rect(0,0,canvas.width,canvas.height);
+			v.fillStyle = '#000';
+			v.fill();
+			v.stroke();
+			v.closePath();
+			
+			//main frame
+		    //function lcarsFrame( o , s , quad , context)
+		    o = { x : 305 , y : 0 } ;
+		    s = {x : 10000, y : 5000};
+			lcarsFrame( o , s , 4 , v );
+			o = { x : 300 , y : 1075 }
+			theme.bW = 30;
+			theme.aW = 60;
+			lcarsFrame( o , s , 2 , v );
+
+            AddButton(v, "HELLO",305,300);//NextButton
+            AddButton(v, "A",305,NextButton);//NextButton
+            AddButton(v, "B",305,NextButton);//NextButton
+            AddButton(v, "C",305,NextButton);//NextButton
+
+    		v.font = '45pt Impact';
+    		v.textAlign = 'left';
+    		v.fillStyle = '#CDF';
+    		v.fillText("REPLICATOR TERMINAL", 475, 75);
+    		
+    		
+    		
+    		//video.addEventListener('play', function () {
+            //    var $this = this; //cache
+            //    (function loop() {
+            //        if (!$this.paused && !$this.ended) {
+            //            ctx.drawImage($this, 0, 0);
+            //            setTimeout(loop, 1000 / 30); // drawing at 30fps
+            //        }
+            //    })();
+            //}, 0);
+
+
+		    //button
+			
+			function z(p)
+			{
+			    //return p;
+			    console.log( p*1920/window.innerWidth);
+			    return p*1920/window.innerWidth;
+			}
+			
+
+
+            function checkButton(event)
+            {
+                var m = {};
+                var rect = canvas.getBoundingClientRect();
+                m.x= z(event.clientX - rect.left);
+                m.y= z(event.clientY - rect.top)
+                for( var i = 0 ; i < buttons.length ; i++)
+                {
+                    var b = buttons[i]
+                    if(b.x < m.x && m.x < (b.x+150) &&  b.y < m.y && m.y < (b.y+60) )
+                    {
+                        alert("you pressed " + b.name)
+                    }
+                    
+                }
+            }
+            canvas.addEventListener('click',checkButton,false);
+                
+            canvas.style.width = "100%"
+            
+            setTimeout(draw,20,v,c,w,h)
+
+		</script>
+
+		
+    </body>
+</html>      
