@@ -1,0 +1,26 @@
+//basic sketch of possible protocols for node<->browser stuffs
+
+messager protocol
+message		contains
+------------------------
+gettemp		null
+temp		float,temp
+getloc		null
+loc		float,x float,y
+getPrint	null
+print		fileName
+cmd		text
+reply		text
+
+
+messager protocol
+message		contains
+------------------------
+post		user,string message,string
+broadcast	user,string message,string
+getHistory	null
+history		message,string[]
+
+
+
+
