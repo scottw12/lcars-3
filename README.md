@@ -13,39 +13,20 @@ Its fundementally two parts: a pronsole->NodeJS->websocket server and a HTML5 ba
 Network Protocol
 ================
 
+| Command       |Message                    |
 |---------------|---------------------------|
-
-|Command        |Message                    |
-
+| gettemp       |null                       |       
+| temp          |float,temp                 |       
+| getloc        |null                       |
+| loc		    |float,x float,y            |   
+| getPrint	    |null                       |
+| print		    |fileName                   |
 |---------------|---------------------------|
-
-|gettemp        |null                       |
-
-|temp           |float,temp                 |
-
-|getloc         |null                       |
-
-|loc		    |float,x float,y            |
-
-|getPrint	    |null                       |
-
-|print		    |fileName                   |
-
+| cmd		    |text                       |
+| reply		    |text                       |
 |---------------|---------------------------|
-
-|cmd		    |text                       |
-
-|reply		    |text                       |
-
-|---------------|---------------------------|
-
-|post		    |user,string message,string |
-
-|broadcast	    |user,string message,string |
-
-|getHistory     |null                       |
-
-|history		|message,string[]           |
-
-|---------------|---------------------------|
-
+| post		    |user,string message,string |
+| broadcast	    |user,string message,string |
+| getHistory    |null                       |
+| history		|message,string[]           |
+ 
