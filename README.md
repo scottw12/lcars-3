@@ -14,20 +14,38 @@ Network Protocol
 ================
 
 |---------------|---------------------------|
+
 |Command        |Message                    |
+
 |---------------|---------------------------|
-|gettemp        |null                       |       
-|temp           |float,temp                 |       
+
+|gettemp        |null                       |
+
+|temp           |float,temp                 |
+
 |getloc         |null                       |
-|loc		    |float,x float,y            |   
+
+|loc		    |float,x float,y            |
+
 |getPrint	    |null                       |
+
 |print		    |fileName                   |
+
 |---------------|---------------------------|
+
 |cmd		    |text                       |
+
 |reply		    |text                       |
+
 |---------------|---------------------------|
+
 |post		    |user,string message,string |
+
 |broadcast	    |user,string message,string |
+
 |getHistory     |null                       |
+
 |history		|message,string[]           |
+
 |---------------|---------------------------|
+
