@@ -18,42 +18,17 @@
 				style: '#888'
 			};
 
-			function lcarsFrame(o, s, quad, context) {
-				//var o = { x : 0 , y : 0 };
-				//var s = { x : 1000 , y : 500 };
-				var qy = 1;
-				if (quad == 1 || quad == 2) {
-					qy = -1;
-				}
-				var qx = 1;
-				if (quad == 2 || quad == 3) {
-					qx = -1;
-				}
-
-				var A = {
-					x: o.x,
-					y: o.y + (qy * s.y)
-				};
-				var B = {
-					x: o.x + (qx * theme.bW),
-					y: A.y
-				};
-				var E = {
-					y: o.y,
-					x: o.x + (qx * s.x)
-				};
-				var D = {
-					y: o.y + (qy * theme.aW),
-					x: E.x
-				};
-				var C = {
-					x: B.x + (qx * 37.5),
-					y: D.y + (qy * 37.5)
-				};
-				var F = {
-					x: o.x + (qx * 75),
-					y: o.y + (qy * 75)
-				};
+			function lcarsFrame(o, s, quad, context) 
+			{
+				var qy = (quad == 1 || quad == 2) ? -1 : 1;
+				var qx = (quad == 2 || quad == 3) ? -1 : 1;
+				
+				var A = {x: o.x,y: o.y + (qy * s.y)};
+				var B = {x: o.x + (qx * theme.bW),y: A.y};
+				var E = {y: o.y,x: o.x + (qx * s.x)};
+				var D = {y: o.y + (qy * theme.aW),x: E.x};
+				var C = {x: B.x + (qx * 37.5),y: D.y + (qy * 37.5)};
+				var F = {x: o.x + (qx * 75),y: o.y + (qy * 75)};
 
 				context.beginPath();
 				context.moveTo(A.x, A.y);
@@ -67,12 +42,12 @@
 				context.fillStyle = theme.style;
 				context.fill();
 				context.closePath();
-
 			}
 
 
 			var buttons = [];
-
+			var NextButton;
+			
 			function testCallback(name) {
 				alert("this button isn't finished " + name);
 			}
@@ -95,7 +70,6 @@
 				renderer.fillStyle = '#000';
 				renderer.fillText(name, 145 + x, y + 50);
 				NextButton = y + 65;
-
 
 				buttons[buttons.length] = {
 					name: name,
@@ -137,7 +111,7 @@
 
 			//main frame
 			//function lcarsFrame( o , s , quad , context)
-			o = {
+			var o = {
 				x: 305,
 				y: 0
 			};
@@ -158,6 +132,7 @@
 			AddButton(v, "A", 305, NextButton, testCallback); //NextButton
 			AddButton(v, "B", 305, NextButton, testCallback); //NextButton
 			AddButton(v, "C", 305, NextButton, testCallback); //NextButton
+			AddButton(v, "FULLSCREEN", 20, 1015, fullScreen); //NextButton
 
 			v.font = '45pt Impact';
 			v.textAlign = 'left';
