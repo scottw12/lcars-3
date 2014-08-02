@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Replicator Terminal</title>
+		<style>
+			body {
+				color: white;
+				background-color: black;
+				margin: 0px;
+				padding: 0px;
+			}
+			
+		</style>
+		<script>
+			var log = [];
+
+			var connection = new WebSocket('ws://lcars-c9-greenfox1505.c9.io:16001', 'messager');
+
+			function sendstuf()
+			{
+				connection.send(document.getElementById('message').value);
+				document.getElementById("message").value = "";
+			}
+			
+			connection.onmessage = function (event) 
+			{
+				var logs = "";
+				console.log(event.data);
+				for( var i = 1 ; i < 10 ; i++)
+				{
+					log[i-1] = log[i];
+					logs = logs + log[i-1];
+				}
+				log[9] = event.data;
+				logs = logs + '\n' + log[9];
+				
+			};
+
+			
+		</script>
+	</head>
+	<body>
+		<textarea rows="10" cols="100"></textarea>
+		<input name="message" id="message" type="text" onKeydown="Javascript: if (event.keyCode==13) sendstuff();"></input>
+	</body>
+
+</html>

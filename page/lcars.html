@@ -44,14 +44,9 @@
 				context.closePath();
 			}
 
-
 			var buttons = [];
 			var NextButton;
 			
-			function testCallback(name) {
-				alert("this button isn't finished " + name);
-			}
-
 			function AddButton(renderer, name, x, y, callback) {
 				renderer.beginPath();
 				renderer.rect(x - 5, y - 5, 160, 70);
@@ -77,7 +72,7 @@
 					y: y,
 					callback: callback
 				};
-			};
+			}
 
 			function fullScreen() {
 				var canvas = document.getElementById("myCanvas");
@@ -85,6 +80,23 @@
 				else if (canvas.webkitRequestFullScreen) canvas.webkitRequestFullScreen();
 				else if (canvas.mozRequestFullScreen) canvas.mozRequestFullScreen();
 			}
+			
+				function checkButton(event) {
+				var m = {};
+				var rect = canvas.getBoundingClientRect();
+				m.x = z(event.clientX - rect.left);
+				m.y = z(event.clientY - rect.top)
+				for (var i = 0; i < buttons.length; i++) {
+					var b = buttons[i];
+					if (b.x < m.x && m.x < (b.x + 150) && b.y < m.y && m.y < (b.y + 60)) {
+						console.log(b.name);
+						b.callback(b.name);
+					}
+
+				}
+			}
+			canvas.addEventListener('click', checkButton, false);
+
 
 
 		</script>
@@ -92,12 +104,10 @@
 	<body>
 		<canvas id="myCanvas" width='1920' height='1080' style="position: absolute;top:0px;left:0px;"></canvas>
 		<script>
-			;
-			var h = 1080
+			
+			var h = 1080;
 			var canvas = document.getElementById('myCanvas');
 			var v = canvas.getContext('2d');
-
-			var stream = document.getElementById('stream');
 
 			v.lineWidth = 0;
 			v.strokeStyle = '#000';
@@ -128,10 +138,10 @@
 			theme.aW = 60;
 			lcarsFrame(o, s, 2, v);
 
-			AddButton(v, "HELLO", 305, 300, testCallback); //NextButton
-			AddButton(v, "A", 305, NextButton, testCallback); //NextButton
-			AddButton(v, "B", 305, NextButton, testCallback); //NextButton
-			AddButton(v, "C", 305, NextButton, testCallback); //NextButton
+			AddButton(v, "HELLO", 305, 300); 
+			AddButton(v, "A", 305, NextButton);
+			AddButton(v, "B", 305, NextButton);
+			AddButton(v, "C", 305, NextButton);
 			AddButton(v, "FULLSCREEN", 20, 1015, fullScreen); //NextButton
 
 			v.font = '45pt Impact';
@@ -149,21 +159,6 @@
 
 
 
-			function checkButton(event) {
-				var m = {};
-				var rect = canvas.getBoundingClientRect();
-				m.x = z(event.clientX - rect.left);
-				m.y = z(event.clientY - rect.top)
-				for (var i = 0; i < buttons.length; i++) {
-					var b = buttons[i]
-					if (b.x < m.x && m.x < (b.x + 150) && b.y < m.y && m.y < (b.y + 60)) {
-						console.log(b.name)
-						b.callback(b.name);
-					}
-
-				}
-			}
-			canvas.addEventListener('click', checkButton, false);
 
 			canvas.style.width = "100%"
 
